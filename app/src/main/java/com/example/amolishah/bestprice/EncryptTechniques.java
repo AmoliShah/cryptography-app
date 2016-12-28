@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,143 +28,169 @@ public class EncryptTechniques extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
+    public class PlayfairCipherEncryption {
+        private String KeyWord = new String();
+        private String Key = new String();
+        private char matrix_arr[][] = new char[5][5];
 
-    public class encryption{
-        String key;
-        String key2;
-        String text;
-        char key_array[][]=new char[5][5];
-        public void keySetter(String k)
-        {
-            String str=new String();
-            boolean test=false;
-            str=str+k.charAt(0);
-            for(int i=1;i<k.length();i++)
-            {
-                for(int j=0;j<str.length();j++)
-                    if(k.charAt(i)==str.charAt(j) || k.charAt(i)=='j')
-                        test=true;
-                if(!test)
-                    str=str+k.charAt(i);
-                test=false;
+        public void setKey(String k) {
+            String K_adjust = new String();
+            boolean flag = false;
+            K_adjust = K_adjust + k.charAt(0);
+            for (int i = 1; i < k.length(); i++) {
+                for (int j = 0; j < K_adjust.length(); j++) {
+                    if (k.charAt(i) == K_adjust.charAt(j)) {
+                        flag = true;
+                    }
+                }
+                if (flag == false)
+                    K_adjust = K_adjust + k.charAt(i);
+                flag = false;
             }
-            key=str;
-            matrixBuilder(key);
+            KeyWord = K_adjust;
         }
-        public void matrixBuilder(String k)
-        {
-            key2=key2+key;
-            boolean test=false;
+
+        public void KeyGen() {
+            boolean flag = true;
             char current;
-            for(int i=0;i<26;i++)
-            {
-                current=(char)(i+97);
-                for(int j=0;j<key.length();j++)
-                    if(current=='j' || current==key.charAt(j))
-                        test=true;
-                if(!test)
-                    key2=key2+current;
-                test=false;
-            }
-          //  System.out.println(key2);
-            for(int i=0;i<5;i++)
-                for(int j=0;j<5;j++)
-                    key_array[i][j]=key2.charAt(i*5+j);
-           /* for(int i=0;i<5;i++)
-            {
-                for(int j=0;j<5;j++)
-                   System.out.print(key_array[i][j]+" ");
-                System.out.println();
-            }*/
-        }
-        public void stringConversion(String input)
-        {
-         //  String altered=input;//.replace('j','i');
-            for(int i=0;i<input.length();i++)
-                if(i>0 && input.charAt(i)==input.charAt(i-1))
-                    input=input.substring(0,i)+'x'+input.substring(i);
-            if((input.length()%2)!=0)
-               input=input+'x';
-            text=input;
-         //   System.out.println(text);
-
-        }
-        public int[] getDimensions(char letter)
-        {
-            int key[]=new int[2];
-            for (int i=0 ; i<5 ;i++)
-                for (int j=0 ; j<5 ; j++)
-                    if(key_array[i][j] == letter)
-                    {
-                        key[0]=i;
-                        key[1]=j;
+            Key = KeyWord;
+            for (int i = 0; i < 26; i++) {
+                current = (char) (i + 97);
+                if (current == 'j')
+                    continue;
+                for (int j = 0; j < KeyWord.length(); j++) {
+                    if (current == KeyWord.charAt(j)) {
+                        flag = false;
                         break;
                     }
-            return key;
-        }
-        public void Encrypt()
-        {
-            char a,b;
-            String Code="";
-            int c[];
-            int d[];
-            for(int i=0;i<text.length();i=i+2)
-            {
-                a=text.charAt(i);
-                b=text.charAt(i+1);
-                c=getDimensions(a);
-                d=getDimensions(b);
-                if(c[0]==d[0])
-                {
-                    if (c[1]<4)
-                        c[1]++;
-                    else
-                        c[1]=0;
-                    if(d[1]<4)
-                        d[1]++;
-                    else
-                        d[1]=0;
                 }
-                else if(c[1]==d[1])
-                {
-                    if (c[0]<4)
-                        c[0]++;
-                    else
-                        c[0]=0;
-                    if(d[0]<4)
-                        d[0]++;
-                    else
-                        d[0]=0;
-                }
-                else
-                {
-                    int temp=c[1];
-                    c[1]=d[1];
-                    d[1]=temp;
-                }
-                Code=Code+key_array[c[0]][c[1]]+key_array[d[0]][d[1]];
+                if (flag)
+                    Key = Key + current;
+                flag = true;
             }
-            System.out.println("Encrypted text:"+Code);
+            matrix();
         }
 
+        private void matrix() {
+            int counter = 0;
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    matrix_arr[i][j] = Key.charAt(counter);
+                    counter++;
+                }
+            }
+        }
+
+        private String format(String old_text) {
+            int i = 0;
+            int len = 0;
+            String text = new String();
+            len = old_text.length();
+            for (int tmp = 0; tmp < len; tmp++) {
+                if (old_text.charAt(tmp) == 'j') {
+                    text = text + 'i';
+                } else
+                    text = text + old_text.charAt(tmp);
+            }
+            len = text.length();
+            for (i = 0; i < len; i = i + 2) {
+                if (text.charAt(i + 1) == text.charAt(i)) {
+                    text = text.substring(0, i + 1) + 'x' + text.substring(i + 1);
+                }
+            }
+            return text;
+        }
+
+        private String[] Divid2Pairs(String new_string) {
+            String Original = format(new_string);
+            int size = Original.length();
+            if (size % 2 != 0) {
+                size++;
+                Original = Original + 'x';
+            }
+            String x[] = new String[size / 2];
+            int counter = 0;
+            for (int i = 0; i < size / 2; i++) {
+                x[i] = Original.substring(counter, counter + 2);
+                counter = counter + 2;
+            }
+            return x;
+        }
+
+        public int[] GetDiminsions(char letter) {
+            int[] key = new int[2];
+            if (letter == 'j')
+                letter = 'i';
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    if (matrix_arr[i][j] == letter) {
+                        key[0] = i;
+                        key[1] = j;
+                        break;
+                    }
+                }
+            }
+            return key;
+        }
+
+        public String encryptMessage(String Source) {
+            String src_arr[] = Divid2Pairs(Source);
+            String Code = new String();
+            char one;
+            char two;
+            int part1[] = new int[2];
+            int part2[] = new int[2];
+            for (int i = 0; i < src_arr.length; i++) {
+                one = src_arr[i].charAt(0);
+                two = src_arr[i].charAt(1);
+                part1 = GetDiminsions(one);
+                part2 = GetDiminsions(two);
+                if (part1[0] == part2[0]) {
+                    if (part1[1] < 4)
+                        part1[1]++;
+                    else
+                        part1[1] = 0;
+                    if (part2[1] < 4)
+                        part2[1]++;
+                    else
+                        part2[1] = 0;
+                } else if (part1[1] == part2[1]) {
+                    if (part1[0] < 4)
+                        part1[0]++;
+                    else
+                        part1[0] = 0;
+                    if (part2[0] < 4)
+                        part2[0]++;
+                    else
+                        part2[0] = 0;
+                } else {
+                    int temp = part1[1];
+                    part1[1] = part2[1];
+                    part2[1] = temp;
+                }
+                Code = Code + matrix_arr[part1[0]][part1[1]]
+                        + matrix_arr[part2[0]][part2[1]];
+            }
+            return Code;
+        }
     }
-    public void PFC (View view)
+        public void PFC (View view)
     {
-        Toast.makeText(this,"hello1",Toast.LENGTH_SHORT).show();
-        Intent a = this.getIntent();
-        String s2="";
-        if(a != null)
-            s2 = a.getStringExtra("text");
-        Toast.makeText(this,"hello2",Toast.LENGTH_SHORT).show();
-        // String s4 = getIntent().getStringExtra("key");
-        encryption p=new encryption();
-      //  String s2 = "key";
-        String s4 = "text";
-        p.keySetter(s4);
-        p.stringConversion(s2);
-        p.Encrypt();
-        Toast.makeText(this,"hello3",Toast.LENGTH_SHORT).show();
+        String text="";
+        PlayfairCipherEncryption x = new PlayfairCipherEncryption();
+        Intent a = getIntent();
+        String key_input="";
+        String keyword="";
+        if(a != null) {
+            key_input = a.getStringExtra("text");
+            keyword = getIntent().getStringExtra("key");
+        }
+        x.setKey(keyword);
+        x.KeyGen();
+        if (key_input.length() % 2 != 0)
+            key_input += "x";
+        text = x.encryptMessage(key_input);
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
 }

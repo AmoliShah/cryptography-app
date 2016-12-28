@@ -30,13 +30,13 @@ public class Encryption extends AppCompatActivity {
     }
     public void ET(View view)
     {
-       /* EditText et = (EditText) findViewById(R.id.editText);
+        EditText et = (EditText) findViewById(R.id.editText);
         String s2 = et.getText().toString();
         EditText et1 = (EditText) findViewById(R.id.editText3);
-        String s4 = et1.getText().toString();*/
+        String s4 = et1.getText().toString();
         Intent l = new Intent(this,EncryptTechniques.class);
-       /* l.putExtra("key",s4);
-        l.putExtra("text",s2);*/
+        l.putExtra("key",s4);
+        l.putExtra("text",s2);
         startActivity(l);
     }
 }
