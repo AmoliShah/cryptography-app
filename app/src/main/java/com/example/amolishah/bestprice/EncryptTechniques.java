@@ -29,7 +29,7 @@ public class EncryptTechniques extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    public class PlayfairCipherEncryption {
+    public class PlayfairCipher {
         private String KeyWord = new String();
         private String Key = new String();
         private char matrix_arr[][] = new char[5][5];
@@ -178,7 +178,7 @@ public class EncryptTechniques extends AppCompatActivity {
         public void PFC (View view)
     {
         String text="";
-        PlayfairCipherEncryption x = new PlayfairCipherEncryption();
+        PlayfairCipher x = new PlayfairCipher();
         Intent a = getIntent();
         String key_input="";
         String keyword="";
@@ -192,5 +192,135 @@ public class EncryptTechniques extends AppCompatActivity {
             key_input += "x";
         text = x.encryptMessage(key_input);
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
+    }
+    public class HillCipher {
+        int keymatrix[][];
+        int linematrix[];
+        int resultmatrix[];
+
+        public String  divide(String temp, int s) {
+            String u ="";
+            while (temp.length() > s) {
+                String sub = temp.substring(0, s);
+                temp = temp.substring(s, temp.length());
+                u  = u +  perform(sub);
+            }
+            if (temp.length() == s)
+                u = u + perform(temp);
+            else if (temp.length() < s) {
+                for (int i = temp.length(); i < s; i++)
+                    temp = temp + 'x';
+                u = u + perform(temp);
+            }
+            return u;
+        }
+
+        public String perform(String line) {
+            linetomatrix(line);
+            linemultiplykey(line.length());
+            String t =result(line.length());
+            return  t;
+        }
+
+        public void keytomatrix(String key, int len) {
+            keymatrix = new int[len][len];
+            int c = 0;
+            for (int i = 0; i < len; i++) {
+                for (int j = 0; j < len; j++) {
+                    keymatrix[i][j] = ((int) key.charAt(c)) - 97;
+                    c++;
+                }
+            }
+        }
+
+        public void linetomatrix(String line) {
+            linematrix = new int[line.length()];
+            for (int i = 0; i < line.length(); i++) {
+                linematrix[i] = ((int) line.charAt(i)) - 97;
+            }
+        }
+
+        public void linemultiplykey(int len) {
+            resultmatrix = new int[len];
+            for (int i = 0; i < len; i++) {
+                for (int j = 0; j < len; j++) {
+                    resultmatrix[i] += keymatrix[i][j] * linematrix[j];
+                }
+                resultmatrix[i] %= 26;
+            }
+        }
+
+        public String result(int len) {
+            String result = "";
+            for (int i = 0; i < len; i++) {
+                result += (char) (resultmatrix[i] + 97);
+            }
+             return (result);
+        }
+
+        public boolean check(String key, int len) {
+            keytomatrix(key, len);
+            int d = determinant(keymatrix, len);
+            d = d % 26;
+            if (d == 0) {
+                Log.i("key","Invalid key!!! Key is not invertible because determinant=0...");
+                return false;
+            } else if (d % 2 == 0 || d % 13 == 0) {
+                Log.i("key","Invalid key!!! Key is not invertible because determinant has common factor with 26...");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        public int determinant(int A[][], int N) {
+            int res;
+            if (N == 1)
+                res = A[0][0];
+            else if (N == 2) {
+                res = A[0][0] * A[1][1] - A[1][0] * A[0][1];
+            } else {
+                res = 0;
+                for (int j1 = 0; j1 < N; j1++) {
+                    int m[][] = new int[N - 1][N - 1];
+                    for (int i = 1; i < N; i++) {
+                        int j2 = 0;
+                        for (int j = 0; j < N; j++) {
+                            if (j == j1)
+                                continue;
+                            m[i - 1][j2] = A[i][j];
+                            j2++;
+                        }
+                    }
+                    res += Math.pow(-1.0, 1.0 + j1 + 1.0) * A[0][j1]
+                            * determinant(m, N - 1);
+                }
+            }
+            return res;
+        }
+
+    }
+    public void HFC (View view)
+    {
+        HillCipher obj = new HillCipher();
+        Intent a = getIntent();
+        String key_input="";
+        String keyword="";
+        if(a != null) {
+            key_input = a.getStringExtra("text");
+            keyword = getIntent().getStringExtra("key");
+        }
+        double sq = Math.sqrt(keyword.length());
+        if (sq != (long) sq)
+            Log.i("Key length","Not Proper key length");
+        else
+        {
+            int s = (int) sq;
+            if (obj.check(keyword, s))
+            {
+                String y = obj.divide(key_input, s);
+                Toast.makeText(this,y,Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

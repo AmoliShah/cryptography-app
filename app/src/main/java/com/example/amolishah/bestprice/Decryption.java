@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 
 public class Decryption extends AppCompatActivity {
 
@@ -29,7 +30,14 @@ public class Decryption extends AppCompatActivity {
     }
     public void DT (View view)
     {
+        EditText et = (EditText) findViewById(R.id.editText6);
+        String s2 = et.getText().toString();
+        EditText et1 = (EditText) findViewById(R.id.editText5);
+        String s4 = et1.getText().toString();
         Intent m = new Intent(this,DecryptTechniques.class);
-        startActivity(m);
+        m.putExtra("key",s4);
+        m.putExtra("text",s2);
+        startActivity(m);;
+
     }
 }

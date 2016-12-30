@@ -19,8 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
-        android:id="@+id/textView3" />
+        android:id="@+id/textView2" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -28,10 +27,10 @@
         android:inputType="textPersonName"
         android:hint="Enter your text"
         android:ems="10"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="107dp"
-        android:id="@+id/editText2" />
+        android:layout_marginTop="69dp"
+        android:id="@+id/editText6"
+        android:layout_below="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
 
     <Button
         android:text="Decryption Techniques"
@@ -40,6 +39,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="99dp"
-        android:id="@+id/button4" />
+        android:layout_marginBottom="108dp"
+        android:id="@+id/button3" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Enter your key"
+        android:ems="10"
+        android:layout_below="@+id/editText6"
+        android:layout_alignStart="@+id/editText6"
+        android:layout_marginTop="47dp"
+        android:id="@+id/editText5" />
 </RelativeLayout>
