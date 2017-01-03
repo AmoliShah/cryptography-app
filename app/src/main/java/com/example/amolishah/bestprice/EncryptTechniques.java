@@ -323,4 +323,65 @@ public class EncryptTechniques extends AppCompatActivity {
             }
         }
     }
+    public class VigenereCipher
+    {
+        private String key;
+        public VigenereCipher(String key) {
+            setKey(key);
+        }
+        public void setKey(String key) {
+
+            if(key == null) {
+                this.key = "";
+                return;
+            }
+            char[] digit = key.toUpperCase().toCharArray();
+            StringBuilder sb = new StringBuilder(digit.length);
+            for(char c : digit) {
+                if(c >= 'A' && c <= 'Z')
+                    sb.append(c);
+            }
+            this.key = sb.toString();
+        }
+        public String encode(String clear) {
+            // ignore if null
+            if(clear == null)
+                return "";
+            if(key.length() == 0)
+
+                return clear.toUpperCase();
+
+            char[] digit = clear.toLowerCase().toCharArray();
+            String longKey = key;
+            while(longKey.length() < clear.length())
+                longKey += key;
+            for(int i = 0; i < digit.length; i++) {
+                if(digit[i] < 'a' || digit[i] > 'z')
+                    continue;
+                char offset = longKey.charAt(i);
+                int nbShift = offset - 'A';
+                digit[i] = Character.toUpperCase(digit[i]);
+                digit[i] += nbShift;
+                if(digit[i] > 'Z') {
+                    digit[i] -= 'Z';
+                    digit[i] += ('A' - 1);
+                }
+            }
+            return new String(digit);
+        }
+    }
+    public void VC (View view)
+    {
+        String text="";
+        Intent a = getIntent();
+        String key_input="";
+        String keyword="";
+        if(a != null) {
+            key_input = a.getStringExtra("text");
+            keyword = getIntent().getStringExtra("key");
+        }
+        VigenereCipher x = new VigenereCipher(keyword);
+        text =  x.encode(key_input);
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
+    }
 }
