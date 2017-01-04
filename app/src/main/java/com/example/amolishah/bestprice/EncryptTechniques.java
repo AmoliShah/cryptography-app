@@ -384,4 +384,35 @@ public class EncryptTechniques extends AppCompatActivity {
         text =  x.encode(key_input);
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
+    public class CaesarCipher {
+        public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+
+        public String encrypt(String plainText, int shiftKey)
+        {
+            plainText = plainText.toLowerCase();
+            String cipherText = "";
+            for (int i = 0; i < plainText.length(); i++)
+            {
+                int charPosition = ALPHABET.indexOf(plainText.charAt(i));
+                int keyVal = (shiftKey + charPosition) % 26;
+                char replaceVal = ALPHABET.charAt(keyVal);
+                cipherText += replaceVal;
+            }
+            return cipherText;
+        }
+    }
+    public void CC (View view)
+    {
+        String text="";
+        CaesarCipher x = new CaesarCipher();
+        Intent a = getIntent();
+        String key_input="";
+        String keyword="";
+        if(a != null) {
+            key_input = a.getStringExtra("text");
+            keyword = getIntent().getStringExtra("key");
+        }
+        text = x.encrypt(key_input,Integer.parseInt(keyword));
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
+    }
 }

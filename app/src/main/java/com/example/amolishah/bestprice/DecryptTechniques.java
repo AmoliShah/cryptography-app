@@ -413,4 +413,37 @@ public class DecryptTechniques extends AppCompatActivity {
         text = x.decode(key_input);
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
+    public class CaesarCipherDecryption {
+        public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+        public String decrypt(String cipherText, int shiftKey)
+        {
+            cipherText = cipherText.toLowerCase();
+            String plainText = "";
+            for (int i = 0; i < cipherText.length(); i++)
+            {
+                int charPosition = ALPHABET.indexOf(cipherText.charAt(i));
+                int keyVal = (charPosition - shiftKey) % 26;
+                if (keyVal < 0)
+                {
+                    keyVal = ALPHABET.length() + keyVal;
+                }
+                char replaceVal = ALPHABET.charAt(keyVal);
+                plainText += replaceVal;
+            }
+        return plainText;
+    }
+}
+    public void CCD (View view){
+        String text="";
+        Intent a = getIntent();
+        CaesarCipherDecryption x = new CaesarCipherDecryption();
+        String key_input="";
+        String keyword="";
+        if(a != null) {
+            key_input = a.getStringExtra("text");
+            keyword = getIntent().getStringExtra("key");
+        }
+        text = x.decrypt(key_input,Integer.parseInt(keyword));
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
+    }
 }
