@@ -3,6 +3,7 @@
     package="com.example.amolishah.bestprice">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    
 
     <application
         android:allowBackup="true"
@@ -55,6 +56,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.amolishah.bestprice.Decryption" />
+        </activity>
+        <activity
+            android:name=".PlayfairCipher"
+            android:label="@string/title_activity_playfair_cipher"
+            android:parentActivityName=".EncryptTechniques"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.amolishah.bestprice.EncryptTechniques" />
         </activity>
     </application>
 

@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#C5CAE9"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.amolishah.bestprice.Encryption"
     tools:showIn="@layout/activity_encryption">
@@ -16,6 +17,9 @@
     <TextView
         android:text="Encrypt whatever you want"
         android:layout_width="wrap_content"
+        android:textAllCaps="true"
+        android:textColor="#3949AB"
+        android:textSize="20dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -33,9 +37,12 @@
         android:layout_alignStart="@+id/textView2" />
 
     <Button
-        android:text="Encryption Techniques"
+        android:text=" Encryption Techniques "
         android:layout_width="wrap_content"
         android:onClick="ET"
+        android:textAllCaps="true"
+        android:background="#3949AB"
+        android:textColor="#C5CAE9"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

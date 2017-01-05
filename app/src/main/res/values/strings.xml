@@ -5,4 +5,6 @@
     <string name="title_activity_decryption">Decryption</string>
     <string name="title_activity_encrypt_techniques">EncryptTechniques</string>
     <string name="title_activity_decrypt_techniques">DecryptTechniques</string>
+    <string name="title_activity_playfair_cipher">PlayfairCipher</string>
+    <string name="PFC_Link">More details about encryption and decryption can be found at this <a href="https://en.wikipedia.org/wiki/Playfair_cipher">link</a></string>
 </resources>
